@@ -6,7 +6,7 @@ def __main__():
     tag = str(sys.argv[1])
     channel = str(sys.argv[2])
 
-    requrl = "http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=" + tag
+    requrl = "http://api.giphy.com/v1/gifs/search?q=" + tag + "?api_key=dc6zaTOxFJmzC"
 
     try:
         gifjson = requests.get(requrl, timeout=5).json()
