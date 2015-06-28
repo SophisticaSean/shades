@@ -24,7 +24,7 @@ def __main__():
     slack_token = str(sys.argv[1])
     channel = str(sys.argv[2])
 
-    con = mdb.connect('localhost', 'testuser', 'somepass', 'rtm',
+    con = mdb.connect('localhost', os.getenv('dbuser1'), os.getenv('dbpass1'), 'rtm',
                       cursorclass=MySQLdb.cursors.DictCursor)
     cur = con.cursor()
     cur.execute("SELECT * FROM Monikers WHERE Network = ':league:'")

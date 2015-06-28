@@ -41,7 +41,7 @@ def main():
         n_percentage = round((n_diff/n_number) * 100, 2)
         n_ratio = round(ticket_count/(n_number/2), 2)
         if stat == "True":
-            con = mdb.connect('localhost', 'testuser', 'somepass', 'rtm',
+            con = mdb.connect('localhost', os.getenv('dbuser1'), os.getenv('dbpass1'), 'rtm',
                               cursorclass=MySQLdb.cursors.DictCursor)
             cur = con.cursor()
             now = time.time()

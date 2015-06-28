@@ -14,10 +14,10 @@ def __main__():
     kill_me = False
     old_minute = 1000
 
-    con = mdb.connect('localhost', 'testuser', 'somepass', 'rtm',
+    con = mdb.connect('localhost', os.getenv('dbuser1'), os.getenv('dbpass1'), 'rtm',
                       cursorclass=MySQLdb.cursors.DictCursor)
     cur = con.cursor()
-    con2 = mdb.connect('localhost', 'slackuser', 'somepass', 'rtm',
+    con2 = mdb.connect('localhost', os.getenv('dbuser2'), os.getenv('dbpass2'), 'rtm',
                       cursorclass=MySQLdb.cursors.DictCursor)
     cr = con2.cursor()
 

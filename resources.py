@@ -142,7 +142,7 @@ def schedule_task(code_string, weekday, hour, minute, cur):
 
 def slack_connect():
     """db connection for slack"""
-    return mdb.connect('localhost', 'slackuser', 'somepass', 'rtm', cursorclass=mdb.cursors.DictCursor)
+    return mdb.connect('localhost', os.getenv('dbuser2'), os.getenv('dbpass2'), 'rtm', cursorclass=mdb.cursors.DictCursor)
 
 def get_shades_path():
     return os.getenv('shades_dir')
