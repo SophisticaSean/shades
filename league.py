@@ -87,7 +87,7 @@ def __main__():
                     rs.post(channel, message, "LoL shades", slack_token, icon_emoji=':league:')
 
                 if query > 0 and rank_query == 0:
-
+                    print "lol"
     con.commit()
     if len(bad_names) > 0:
         rs.msg_sean("bad names in monikers for :league: :" + ", ".join(bad_names), slack_token)
