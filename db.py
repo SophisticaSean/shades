@@ -51,7 +51,7 @@ with con:
         cur.execute("DROP TABLE Tasks")
         cur.execute("CREATE TABLE Tasks(ID INT PRIMARY KEY AUTO_INCREMENT, Command VARCHAR(200), Weekday VARCHAR(10), Hour INT, Min INT)")
         cur.execute("DROP TABLE League")
-        cur.execute("CREATE TABLE League(ID INT PRIMARY KEY AUTO_INCREMENT, Slack_Id VARCHAR(10), Name VARCHAR(30), S_ID VARCHAR(30) UNIQUE KEY, Level INT(2))")
+        cur.execute("CREATE TABLE League(ID INT PRIMARY KEY AUTO_INCREMENT, Slack_Id VARCHAR(10), Name VARCHAR(30), S_ID VARCHAR(30) UNIQUE KEY, Level INT(2), Rank VARCHAR(30)")
     #i = 0
     #while i < 25:
     #   cur.execute("INSERT INTO test(Name) VALUES('Sean Loois %i')" % (i))
