@@ -87,7 +87,15 @@ def __main__():
                     rs.post(channel, message, "LoL shades", slack_token, icon_emoji=':league:')
 
                 if query > 0 and rank_query == 0:
-                    print "lol"
+                    user = cur.fetchone()
+                    sql = "UPDATE League SET Rank = %s where S_ID = %s"
+                    cur.execute(sql, (rank, summoner["id"]))
+                    sql = "SELECT * FROM Users WHERE Slack_Id = %s"
+                    cur.execute(sql, (user["Slack_Id"]))
+                    frd_user = cur.fetchone(
+                    message = "omg {}/{} just changed ranks to {}.".format(frd_user["Nick"], summoner["name"], rank)
+                    rs.post(channel, message, "LoL shades", slack_token, icon_emoji=':league:')
+
     con.commit()
     if len(bad_names) > 0:
         rs.msg_sean("bad names in monikers for :league: :" + ", ".join(bad_names), slack_token)
