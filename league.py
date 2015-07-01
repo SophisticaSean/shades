@@ -19,7 +19,7 @@ def summoner_get_current_rank(summoner_id):
     api_url = "https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/{}/entry?api_key={}".format(summoner_id, token)
     req = requests.get(api_url, timeout=5)
     if req.status_code == requests.codes.ok:
-	print req.json()
+    print req.json()
         tier = req.json()[summoner_id][0]["tier"]
         division = req.json()[summoner_id][0]["entries"][0]["division"]
         return "{} {}".format(tier, division)
@@ -92,13 +92,13 @@ def __main__():
                     user = cur.fetchone()
                     sql = "UPDATE League SET Rank = %s where S_ID = %s"
                     cur.execute(sql, (rank, summoner["id"]))
-		    if rank != "Currently Unranked":
+                    if rank != "Currently Unranked":
                         sql = "SELECT * FROM Users WHERE Slack_Id = %s"
                         cur.execute(sql, (user["Slack_Id"]))
                         frd_user = cur.fetchone()
                         message = "omg {}/{} just changed ranks to {}.".format(frd_user["Nick"], summoner["name"], rank)
                         rs.post(channel, message, "LoL shades", slack_token, icon_emoji=':league:')
-		time.sleep(1)
+                time.sleep(1)
 
     con.commit()
     if len(bad_names) > 0:
