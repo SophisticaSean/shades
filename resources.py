@@ -84,11 +84,6 @@ def league_check(token, channel):
     """Runs the League Check scripts which checks for all :league: monikers and updates them or puts them in the League table"""
     subprocess.Popen(["python", get_shades_path() + "league.py", token, channel], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
-
-def make_users(url, user_id, tcount='0', tacount='0', scount='0', ocount='0'):
-    """opens and runs scanvas script that makes a ton of users quickly"""
-    return subprocess.Popen(["python", get_shades_path() + "scanvas.py", url, user_id, tcount, tacount, scount, ocount], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-
 def add_user(name, nick, slackid, cur):
     """adds a user to the database"""
     sql = ("INSERT INTO Users "
