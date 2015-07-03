@@ -129,10 +129,8 @@ def get_im(user_id, token):
 
 def schedule_task(code_string, weekday, hour, minute, cur):
     """ put a task into the database for execution """
-    print code_string
     sql = ("INSERT INTO Tasks (Command, Weekday, Hour, Min) VALUES('{}','{}','{}','{}')"
           ).format(code_string, weekday, hour, minute)
-    print sql
     cur.execute(sql)
 
 def slack_connect():
