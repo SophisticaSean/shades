@@ -121,12 +121,6 @@ def post(channel, message, username, token, icon_url='', icon_emoji=':shadesmcge
     nurl = nurl_temp.format(token, channel, urllib.quote(message), username, icon_url, icon_emoji)
     return requests.get(nurl, timeout=5)
 
-def get_im(user_id, token):
-    imurl = "https://slack.com/api/im.open?token=" + token + "&user=" + user_id
-    chan_id = requests.get(imurl, timeout=5)
-    chan_id = chan_id.json()['channel']['id']
-    return chan_id
-
 def schedule_task(code_string, weekday, hour, minute, cur):
     """ put a task into the database for execution """
     sql = ("INSERT INTO Tasks (Command, Weekday, Hour, Min) VALUES('{}','{}','{}','{}')"
@@ -162,6 +156,20 @@ def two_n(team, channel, token, cur, stat = "False"):
 def msg_sean(message, token):
     """messages sean about something"""
     post("D040WDA0X", message, "shades McStatus", token)
+
+def get_im(user_id, token):
+    imurl = "https://slack.com/api/im.open?token=" + token + "&user=" + user_id
+    chan_id = requests.get(imurl, timeout=5)
+    chan_id = chan_id.json()['channel']['id']
+    return chan_id
+
+def get_user_id(name_nick, cur):
+    sql = "SELECT * FROM Users WHERE Name LIKE %s OR Nick LIKE %s"
+    query = cur.execute(sql, (like(name_nick), like(name_nick)))
+    if query > 0:
+        return cur.fetchone()
+    else:
+        return None
 
 def get_name(user_id, token):
     """runs api call to retrieve a users' name"""

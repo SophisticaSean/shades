@@ -2,17 +2,6 @@ import MySQLdb as mdb, MySQLdb.cursors, requests, os, time, json, ast, random, s
 import MySQLdb.cursors
 new_tables = False
 
-
-rtm_conf_path = '/configs/rtm.config'
-
-temp = open(rtm_conf_path, 'r')
-config_lines = temp.readlines()
-gif_ct = ast.literal_eval(config_lines[0].replace('\r\n', ''))
-channels = ast.literal_eval(config_lines[1].replace('\r\n', ''))
-users = ast.literal_eval(config_lines[2])
-two_n = ast.literal_eval(config_lines[3])
-temp.close()
-
 con = mdb.connect('localhost', os.getenv('dbuser1'), os.getenv('dbuser2'), 'rtm', cursorclass=MySQLdb.cursors.DictCursor)
 with con:
     cur = con.cursor()
