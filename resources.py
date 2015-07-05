@@ -171,6 +171,12 @@ def get_user_id(name_nick, cur):
     else:
         return None
 
+def message_user(nick, message, token, cur, name="shades McGee", emoji=":shades:"):
+    user_id = get_user_id(nick, cur)
+    if user_id != None:
+        dm_channel = get_im(user_id, token)
+        post(dm_channel, message, name, token, icon_emoji=emoji)
+
 def get_name(user_id, token):
     """runs api call to retrieve a users' name"""
     u_url = "https://slack.com/api/users.info?token=" + token + "&user=" + user_id + "&pretty=1"
