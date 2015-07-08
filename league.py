@@ -1,4 +1,4 @@
-import requests, json, os, sys, random
+import requests, time, json, os, sys, random
 import resources as rs
 import MySQLdb as mdb, MySQLdb.cursors
 
@@ -15,13 +15,15 @@ def summoner_get_by_name(name):
 def summoner_get_current_rank(summoner_id):
     # takes a summoner ID and returns their current rank and division
     token = get_token()
+    summoner_id = str(summoner_id)
     api_url = "https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/{}/entry?api_key={}".format(summoner_id, token)
-    req = requests.get(api_url)
+    req = requests.get(api_url, timeout=5)
     if req.status_code == requests.codes.ok:
+	print req.json()
         tier = req.json()[summoner_id][0]["tier"]
         division = req.json()[summoner_id][0]["entries"][0]["division"]
         return "{} {}".format(tier, division)
-    elif req.status.code == 404:
+    elif req.status_code == 404:
         return "Currently Unranked"
     else:
         raise("Rito didn't respond to our request")
@@ -68,7 +70,7 @@ def __main__():
             else:
                 # update the user in the table if their level changes
                 rank = summoner_get_current_rank(summoner["id"])
-                rank_sql = "SELECT * FROM League WHERE S_ID = '%s' AND Rank = '%s'"
+                rank_sql = "SELECT * FROM League WHERE S_ID = %s AND Rank = %s"
                 rank_query = cur.execute(rank_sql, (summoner["id"], rank))
                 sql = "SELECT * FROM League WHERE S_ID = '%s' AND Level = '%s'"
                 query1 = cur.execute(sql, (summoner["id"], summoner["summonerLevel"]))
@@ -90,11 +92,13 @@ def __main__():
                     user = cur.fetchone()
                     sql = "UPDATE League SET Rank = %s where S_ID = %s"
                     cur.execute(sql, (rank, summoner["id"]))
-                    sql = "SELECT * FROM Users WHERE Slack_Id = %s"
-                    cur.execute(sql, (user["Slack_Id"]))
-                    frd_user = cur.fetchone(
-                    message = "omg {}/{} just changed ranks to {}.".format(frd_user["Nick"], summoner["name"], rank)
-                    rs.post(channel, message, "LoL shades", slack_token, icon_emoji=':league:')
+		    if rank != "Currently Unranked":
+                        sql = "SELECT * FROM Users WHERE Slack_Id = %s"
+                        cur.execute(sql, (user["Slack_Id"]))
+                        frd_user = cur.fetchone()
+                        message = "omg {}/{} just changed ranks to {}.".format(frd_user["Nick"], summoner["name"], rank)
+                        rs.post(channel, message, "LoL shades", slack_token, icon_emoji=':league:')
+		time.sleep(1)
 
     con.commit()
     if len(bad_names) > 0:
