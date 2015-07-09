@@ -54,5 +54,5 @@ with con:
         cur.execute("CREATE TABLE League(ID INT PRIMARY KEY AUTO_INCREMENT, Slack_Id VARCHAR(10), Name VARCHAR(30), S_ID VARCHAR(30) UNIQUE KEY, Level INT(2), Rank VARCHAR(30)")
     #i = 0
     #while i < 25:
-    #   cur.execute("INSERT INTO test(Name) VALUES('Sean Loois %i')" % (i))
+    #   cur.execute("INSERT INTO test(Name) VALUES('Sean %i')" % (i))
     #   i = i + 1
