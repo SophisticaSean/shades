@@ -167,7 +167,8 @@ def get_user_id(name_nick, cur):
     sql = "SELECT * FROM Users WHERE Name LIKE %s OR Nick LIKE %s"
     query = cur.execute(sql, (like(name_nick), like(name_nick)))
     if query > 0:
-        return cur.fetchone()
+        row = cur.fetchone()
+        return row["Slack_Id"]
     else:
         return None
 
