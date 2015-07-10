@@ -172,7 +172,7 @@ def get_user_id(name_nick, cur):
     else:
         return None
 
-def message_user(nick, message, token, cur, name="shades McGee", emoji=":shades:"):
+def message_user(nick, message, token, cur, name="shades McGee", emoji=":shadesmcgee:"):
     user_id = get_user_id(nick, cur)
     if user_id != None:
         dm_channel = get_im(user_id, token)
