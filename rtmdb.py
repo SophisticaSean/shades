@@ -7,7 +7,7 @@ init()
 
 def __main__():
     colors = [F.GREEN, F.YELLOW, F.BLUE, F.MAGENTA, F.CYAN]
-    super_users = {'slewis':'U029RFUDH'}
+    super_users = {'slewis':'U029RFUDHa'}
     username = 'shades McGee' #username for the bot
     token = os.getenv('stoken')
     dats_the_sound_of_da_police = False # enables police bot for @channels or @groups
@@ -78,7 +78,7 @@ def __main__():
                     if 'gif me ' in event.text:
                         sql = "SELECT * FROM Gif_Whitelist WHERE Slack_Id = %s AND Channel = %s"
                         query = cur.execute(sql, (event.user_id, event.channel_id))
-                        if query > 0:
+                        if query > 0 or (event.channel_id == rs.get_im(event.user_id, token)):
                             user_authed = True
                         else:
                             user_authed = False
