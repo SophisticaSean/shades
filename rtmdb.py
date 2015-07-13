@@ -7,7 +7,7 @@ init()
 
 def __main__():
     colors = [F.GREEN, F.YELLOW, F.BLUE, F.MAGENTA, F.CYAN]
-    super_users = {'slewis':'U029RFUDHa'}
+    super_users = {'slewis':'U029RFUDH'}
     username = 'shades McGee' #username for the bot
     token = os.getenv('stoken')
     dats_the_sound_of_da_police = False # enables police bot for @channels or @groups
