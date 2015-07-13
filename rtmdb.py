@@ -291,6 +291,25 @@ def __main__():
                             else:
                                 message = "{} doesn't seem to have been added as a nickname yet.".format(nickname)
                             rs.post(event.channel_id, message, '2n bot', token, icon_emoji=':robot:')
+                        if re.search(r'^!2n query \S*$', event.text):
+                            msg_items = re.search(r'^!2n query \S*$', event.text).group().split(' ')
+                            team = msg_items[2]
+                            sql = "SELECT * FROM 2n_Nicks WHERE Team = %s"
+                            nick_query = cur.execute(sql, (team))
+                            team_sql = "SELECT * FROM 2n_Teams WHERE Team = %s"
+                            team_query = cur.execute(team_sql, (team))
+                            if nick_query > 0 or team_query > 0:
+                                row = cur.fetchone()
+                                if nick_query > 0 and team_query == 0:
+                                    team_query = cur.execute(sql, (row["Team"]))
+                                    row = cur.fetchone()
+
+                                query = row["Query"]
+                                message = "Here's the query for {}: \r\n `{}`".format(team, query)
+                            else:
+                                message - "{} doesn't seem to be a team I recognize."
+                            rs.post(event.channel_id, message, '2n bot', token, icon_emoji=':robot:')
+
                 # Logic for monikers
                     if re.search(r'^!monikers ', event.text) != None:
                         msg_items = event.text.split(" ")

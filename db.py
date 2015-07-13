@@ -30,7 +30,7 @@ with con:
         cur.execute("DROP TABLE Gif_Whitelist")
         cur.execute("CREATE TABLE Gif_Whitelist(Id INT PRIMARY KEY AUTO_INCREMENT, Channel VARCHAR(50), Slack_Id VARCHAR(10))")
         cur.execute("DROP TABLE 2n_Teams")
-        cur.execute("CREATE TABLE 2n_Teams(Id INT PRIMARY KEY AUTO_INCREMENT, Team VARCHAR(50), N_Number INT)")
+        cur.execute("CREATE TABLE 2n_Teams(Id INT PRIMARY KEY AUTO_INCREMENT, Team VARCHAR(50), Query VARCHAR(1000), N_Number INT)")
         cur.execute("DROP TABLE 2n_Nicks")
         cur.execute("CREATE TABLE 2n_Nicks(Id INT PRIMARY KEY AUTO_INCREMENT, Team VARCHAR(50), Nick VARCHAR(50))")
         cur.execute("DROP TABLE Monikers")
