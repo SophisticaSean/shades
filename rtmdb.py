@@ -307,8 +307,15 @@ def __main__():
                                 query = row["Query"]
                                 message = "Here's the query for {}: \r\n `{}`".format(team, query)
                             else:
-                                message - "{} doesn't seem to be a team I recognize."
+                                message = "{} doesn't seem to be a team I recognize.".format(team)
                             rs.post(event.channel_id, message, '2n bot', token, icon_emoji=':robot:')
+                        if re.search(r'^!2n change_query \S*$', event.text):
+                            msg_items = re.search(r'^!2n query \S*$', event.text).group().split(' ')
+                            team = msg_items[2]
+                            sql = "SELECT * FROM 2n_Nicks WHERE Team = %s"
+                            nick_query = cur.execute(sql, (team))
+                            team_sql = "SELECT * FROM 2n_Teams WHERE Team = %s"
+                            team_query = cur.execute(team_sql, (team))
 
                 # Logic for monikers
                     if re.search(r'^!monikers ', event.text) != None:
