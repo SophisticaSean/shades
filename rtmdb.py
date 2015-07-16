@@ -294,7 +294,7 @@ def __main__():
                         if re.search(r'^!2n query \S*$', event.text):
                             msg_items = re.search(r'^!2n query \S*$', event.text).group().split(' ')
                             team = msg_items[2]
-                            sql = "SELECT * FROM 2n_Nicks WHERE Team = %s"
+                            sql = "SELECT * FROM 2n_Nicks WHERE Nick = %s"
                             nick_query = cur.execute(sql, (team))
                             team_sql = "SELECT * FROM 2n_Teams WHERE Team = %s"
                             team_query = cur.execute(team_sql, (team))
