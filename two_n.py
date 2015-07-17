@@ -1,6 +1,7 @@
 """gets all tickets associated to the passed team and does maths and reports back to slack"""
 import requests, os, sys, time
 import MySQLdb as mdb, MySQLdb.cursors
+import resources as rs
 def main():
     """main function"""
     db_msg = ""
@@ -37,7 +38,7 @@ def main():
         if team == 'android':
             jql = base + "(issuetype%20%3D%20Bug%20OR%20issuetype%20%3D%20'Support%20Week%20Task')%20AND%20status%20!%3D%20Closed%20AND%20('Sprint%20Team'%20%3D%20%27android%27)"
     else:
-        print query
+        rs.msg_sean(query, token)
         jql = query
     response = requests.get(jql, headers=headers)
     try:
