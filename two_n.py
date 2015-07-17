@@ -8,8 +8,9 @@ def main():
 
     team = str(sys.argv[1])
     n_number = 2*int(sys.argv[2])
-    channel = str(sys.argv[3])
-    stat = str(sys.argv[4])
+    query = str(sys.argv[3])
+    channel = str(sys.argv[4])
+    stat = str(sys.argv[5])
 
     def post(channel, message, username, icon_url='', icon_emoji=''):
         """posts a message to a channel (in slack) with the supplied parameters"""
@@ -20,20 +21,23 @@ def main():
 
     jiracred = (os.getenv('juser') + ':' + os.getenv('jpass')).encode('base64', 'strict')
     headers = {'Authorization': 'Basic ' + jiracred}
-    base = "https://{}.atlassian.net/rest/api/2/search?jql=".format(os.getenv('jiradomain'))
-    jql = (base + '(status%20%20%3D%20Open%20OR%20status%20%3D%20"In%20Progress"%20OR%20status%20%3'
-           'D%20"QA"%20OR%20status%20%3D%20Feedback%20or%20status%20%3D%20"QA%20Ready")'
-           '%20AND%20((type%20%3D%20"Support%20Week%'
-           '20Task"%20AND%20status%20!%3D%20"QA")%20OR%20type%20%3D%20Bug)%20AND%20("Sprint%'
-           '20Team"%20%3D%20%27' + team + '%27)')
-    if team == 'admin':
-        jql = base + 'filter%20%3D%20"Admin%202n%20Bugs"'
-    if team == 'bridge':
-        jql = base + "project%20in%20(ASH%2C%20BR)%20and%20issuetype%20%3D%20bug%20and%20status%20!%3D%20Closed"
-    if team == 'ios':
-        jql = base + "(issuetype%20%3D%20Bug%20OR%20issuetype%20%3D%20'Support%20Week%20Task')%20AND%20status%20!%3D%20Closed%20AND%20('Sprint%20Team'%20%3D%20%27ios%27)"
-    if team == 'android':
-        jql = base + "(issuetype%20%3D%20Bug%20OR%20issuetype%20%3D%20'Support%20Week%20Task')%20AND%20status%20!%3D%20Closed%20AND%20('Sprint%20Team'%20%3D%20%27android%27)"
+    if query == "None":
+        base = "https://{}.atlassian.net/rest/api/2/search?jql=".format(os.getenv('jiradomain'))
+        jql = (base + '(status%20%20%3D%20Open%20OR%20status%20%3D%20"In%20Progress"%20OR%20status%20%3'
+               'D%20"QA"%20OR%20status%20%3D%20Feedback%20or%20status%20%3D%20"QA%20Ready")'
+               '%20AND%20((type%20%3D%20"Support%20Week%'
+               '20Task"%20AND%20status%20!%3D%20"QA")%20OR%20type%20%3D%20Bug)%20AND%20("Sprint%'
+               '20Team"%20%3D%20%27' + team + '%27)')
+        if team == 'admin':
+            jql = base + 'filter%20%3D%20"Admin%202n%20Bugs"'
+        if team == 'bridge':
+            jql = base + "project%20in%20(ASH%2C%20BR)%20and%20issuetype%20%3D%20bug%20and%20status%20!%3D%20Closed"
+        if team == 'ios':
+            jql = base + "(issuetype%20%3D%20Bug%20OR%20issuetype%20%3D%20'Support%20Week%20Task')%20AND%20status%20!%3D%20Closed%20AND%20('Sprint%20Team'%20%3D%20%27ios%27)"
+        if team == 'android':
+            jql = base + "(issuetype%20%3D%20Bug%20OR%20issuetype%20%3D%20'Support%20Week%20Task')%20AND%20status%20!%3D%20Closed%20AND%20('Sprint%20Team'%20%3D%20%27android%27)"
+    else:
+        jql = query
     response = requests.get(jql, headers=headers)
     try:
         ticket_count = float(response.json()[u'total'])
@@ -44,6 +48,7 @@ def main():
             con = mdb.connect('localhost', os.getenv('dbuser1'), os.getenv('dbpass1'), 'rtm',
                               cursorclass=MySQLdb.cursors.DictCursor)
             cur = con.cursor()
+
             now = time.time()
             sql = ("INSERT INTO 2n_data (Team, N_number, Count, Date) "
                    "VALUES('{}', '{}', '{}', '{}')").format(team, n_number, ticket_count, now)

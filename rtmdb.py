@@ -308,14 +308,12 @@ def __main__():
                                     team = row["Team"]
 
                                 query = row["Query"]
-                                message = "Here's the query for {}: \r\n `{}`".format(team, query)
+                                message = "Here's the query for the {} team: \r\n `{}`".format(team, query)
                             else:
                                 message = "{} doesn't seem to be a team I recognize.".format(team)
                             rs.post(event.channel_id, message, '2n bot', token, icon_emoji=':robot:')
                         if re.search(r'^!2n change_query \S* \S*$', event.text):
-                            print event.text
                             msg_items = re.search(r'^!2n change_query \S* \S*$', event.text).group().split(' ')
-                            print msg_items
                             team = msg_items[2]
                             new_query = msg_items[3]
                             sql = "SELECT * FROM 2n_Nicks WHERE Team = %s"
@@ -326,16 +324,15 @@ def __main__():
                             if nick_query > 0 or team_query > 0:
                                 if team_query > 0:
                                     row = cur.fetchone()
-                                    print row
                                 if nick_query > 0:
                                     team_query = cur.execute(team_sql, (nick_row["Team"]))
                                     row = cur.fetchone()
                                     team = row["Team"]
-                                    print row
 
                                 sql = "UPDATE 2n_Teams SET Query = %s WHERE Team = %s"
                                 cur.execute(sql, (new_query, team))
                                 message = "New Query applied to {}".format(team)
+                                rs.msg_sean(message + "by {}".format(event.name), token)
                             else:
                                 message = "{} doesn't seem to be a team I recognize.".format(team)
                             rs.post(event.channel_id, message, '2n bot', token, icon_emoji=':robot:')
