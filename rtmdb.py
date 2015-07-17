@@ -312,7 +312,7 @@ def __main__():
                             else:
                                 message = "{} doesn't seem to be a team I recognize.".format(team)
                             rs.post(event.channel_id, message, '2n bot', token, icon_emoji=':robot:')
-                        if re.search(r'^!2n change_query \S*$', event.text):
+                        if re.search(r'^!2n change_query \S* \S*$', event.text):
                             msg_items = re.search(r'^!2n query \S*$', event.text).group().split(' ')
                             team = msg_items[2]
                             new_query = msg_items[3]
