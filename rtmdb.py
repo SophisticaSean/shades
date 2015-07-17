@@ -338,7 +338,7 @@ def __main__():
                                 jiracred = (os.getenv('juser') + ':' + os.getenv('jpass')).encode('base64', 'strict')
                                 headers = {'Authorization': 'Basic ' + jiracred}
                                 query_test = requests.get(new_query, headers=headers)
-                                if query_test.status_code == requests.codes.ok:
+                                if (query_test.status_code == requests.codes.ok) and (os.getenv("jiradomain") in query):
                                     if team_query > 0:
                                         row = cur.fetchone()
                                     if nick_query > 0:
@@ -349,7 +349,7 @@ def __main__():
                                     sql = "UPDATE 2n_Teams SET Query = %s WHERE Team = %s"
                                     cur.execute(sql, (new_query, team))
                                     message = "New Query applied to {}".format(team)
-                                    rs.msg_sean(message + "by {}".format(event.name), token)
+                                    rs.msg_sean(message + " by {}".format(event.name), token)
                                 else:
                                     message = "{} is not a valid query, you can only add a valid query to a team.".format(new_query)
                             else:
