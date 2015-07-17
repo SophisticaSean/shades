@@ -308,7 +308,18 @@ def __main__():
                                     team = row["Team"]
 
                                 query = row["Query"]
-                                message = "Here's the query for the {} team: \r\n `{}`".format(team, query)
+                                if query == None:
+                                    base = "https://{}.atlassian.net/rest/api/2/search?jql=".format(os.getenv('jiradomain'))
+                                    default_query = base + (base + '(status%20%20%3D%20Open%20OR%20status%20%3D%20"In%20Progress"%20OR%20status%20%3'
+                                                           'D%20"QA"%20OR%20status%20%3D%20Feedback%20or%20status%20%3D%20"QA%20Ready")'
+                                                           '%20AND%20((type%20%3D%20"Support%20Week%'
+                                                           '20Task"%20AND%20status%20!%3D%20"QA")%20OR%20type%20%3D%20Bug)%20AND%20("Sprint%'
+                                                           '20Team"%20%3D%20%27' + team + '%27)')
+
+                                    message = ("The team {} does not have a custom query set, "
+                                               "they will be using this default query: {}").format(team, default_query)
+                                else:
+                                    message = "Here's the query for the {} team: \r\n `{}`".format(team, query)
                             else:
                                 message = "{} doesn't seem to be a team I recognize.".format(team)
                             rs.post(event.channel_id, message, '2n bot', token, icon_emoji=':robot:')
