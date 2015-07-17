@@ -305,6 +305,7 @@ def __main__():
                                 if nick_query > 0:
                                     team_query = cur.execute(team_sql, (nick_row["Team"]))
                                     row = cur.fetchone()
+                                    team = row["Team"]
 
                                 query = row["Query"]
                                 message = "Here's the query for {}: \r\n `{}`".format(team, query)
