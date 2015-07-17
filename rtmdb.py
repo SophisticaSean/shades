@@ -502,6 +502,8 @@ def __main__():
                             `!2n add_nick nickname team` will add a nickname for a team, then `!2n status nickname` will fetch data for team
                                 (can use one nick name for multiple teams, ex. mobile will call both ios and android)
                             `!2n delete_nick nickname` will remove all nicknames matching nickname from the database.
+                            `!2n query team` will show you the current JIRA query that team is following.
+                            `!2n change_query team new_query` will set new_query to be used when team is called by !2n status
 
                         `!monikers` - lets you associate yourself to various usernames on various networks (like :xbl:, :psn:, or :steam:)
                             `!monikers somename` will look up somename and if they exist attempt to list out the usernames and networks they belong to.

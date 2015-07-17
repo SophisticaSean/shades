@@ -30,14 +30,6 @@ def main():
                '%20AND%20((type%20%3D%20"Support%20Week%'
                '20Task"%20AND%20status%20!%3D%20"QA")%20OR%20type%20%3D%20Bug)%20AND%20("Sprint%'
                '20Team"%20%3D%20%27' + team + '%27)')
-        if team == 'admin':
-            jql = base + 'filter%20%3D%20"Admin%202n%20Bugs"'
-        if team == 'bridge':
-            jql = base + "project%20in%20(ASH%2C%20BR)%20and%20issuetype%20%3D%20bug%20and%20status%20!%3D%20Closed"
-        if team == 'ios':
-            jql = base + "(issuetype%20%3D%20Bug%20OR%20issuetype%20%3D%20'Support%20Week%20Task')%20AND%20status%20!%3D%20Closed%20AND%20('Sprint%20Team'%20%3D%20%27ios%27)"
-        if team == 'android':
-            jql = base + "(issuetype%20%3D%20Bug%20OR%20issuetype%20%3D%20'Support%20Week%20Task')%20AND%20status%20!%3D%20Closed%20AND%20('Sprint%20Team'%20%3D%20%27android%27)"
     else:
         jql = query
     response = requests.get(jql, headers=headers)
