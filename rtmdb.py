@@ -315,7 +315,7 @@ def __main__():
                         if re.search(r'^!2n change_query \S* \S*$', event.text):
                             msg_items = re.search(r'^!2n change_query \S* \S*$', event.text).group().split(' ')
                             team = msg_items[2]
-                            new_query = re.sub(r"\S*\|", "", msg_items[3].replace(">", ""))
+                            new_query = re.sub(r"\S*\|", "", msg_items[3].replace(">", "").replace("<", ""))
                             sql = "SELECT * FROM 2n_Nicks WHERE Team = %s"
                             nick_query = cur.execute(sql, (team))
                             nick_row = cur.fetchone()
