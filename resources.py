@@ -140,7 +140,7 @@ def two_n(team, channel, token, cur, stat = "False"):
     if two_n != None:
         if len(two_n) == 1:
             two_n = two_n[0]
-            subprocess.Popen(["python", get_shades_path() + "two_n.py", str(two_n["Team"]), str(two_n["N_Number"]), str(two_n["Query"]), channel, stat], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            subprocess.Popen(["python", get_shades_path() + "two_n.py", str(two_n["Team"]), str(two_n["N_Number"]), channel, stat], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         else:
             for item in two_n:
                 subprocess.Popen(["python", get_shades_path() + "two_n.py", item["Team"], str(item["N_Number"]), channel, stat], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)

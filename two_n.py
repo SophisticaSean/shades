@@ -9,19 +9,19 @@ def main():
 
     team = str(sys.argv[1])
     n_number = 2*int(sys.argv[2])
-    query = str(sys.argv[3])
-    channel = str(sys.argv[4])
-    stat = str(sys.argv[5])
+    channel = str(sys.argv[3])
+    stat = str(sys.argv[4])
 
-    def post(channel, message, username, icon_url='', icon_emoji=''):
-        """posts a message to a channel (in slack) with the supplied parameters"""
-        nurl_temp = ("https://slack.com/api/chat.postMessage?token={}&channel={}"
-                     "&text={}&username={}&icon_url={}&icon_emoji={}")
-        nurl = nurl_temp.format(token, channel, message, username, icon_url, icon_emoji)
-        return requests.get(nurl, timeout=5)
+    con = mdb.connect('localhost', os.getenv('dbuser1'), os.getenv('dbpass1'), 'rtm',
+                      cursorclass=MySQLdb.cursors.DictCursor)
+    cur = con.cursor()
 
+    sql = "SELECT * FROM 2n_Teams WHERE Team = %s"
+    cur.execute(sql, (team))
+    query = cur.fetchone()["Query"]
     jiracred = (os.getenv('juser') + ':' + os.getenv('jpass')).encode('base64', 'strict')
     headers = {'Authorization': 'Basic ' + jiracred}
+
     if query == "None":
         base = "https://{}.atlassian.net/rest/api/2/search?jql=".format(os.getenv('jiradomain'))
         jql = (base + '(status%20%20%3D%20Open%20OR%20status%20%3D%20"In%20Progress"%20OR%20status%20%3'
@@ -47,10 +47,6 @@ def main():
         n_percentage = round((n_diff/n_number) * 100, 2)
         n_ratio = round(ticket_count/(n_number/2), 2)
         if stat == "True":
-            con = mdb.connect('localhost', os.getenv('dbuser1'), os.getenv('dbpass1'), 'rtm',
-                              cursorclass=MySQLdb.cursors.DictCursor)
-            cur = con.cursor()
-
             now = time.time()
             sql = ("INSERT INTO 2n_data (Team, N_number, Count, Date) "
                    "VALUES('{}', '{}', '{}', '{}')").format(team, n_number, ticket_count, now)
