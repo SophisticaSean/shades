@@ -316,8 +316,8 @@ def __main__():
                                                            '20Task"%20AND%20status%20!%3D%20"QA")%20OR%20type%20%3D%20Bug)%20AND%20("Sprint%'
                                                            '20Team"%20%3D%20%27' + team + '%27)')
 
-                                    message = ("The team {} does not have a custom query set, "
-                                               "they will be using this default query: {}").format(team, default_query)
+                                    message = ("The `{}` team does not have a custom query set, "
+                                               "they will be using this default query: `{}`").format(team, default_query)
                                 else:
                                     message = "Here's the query for the {} team: \r\n `{}`".format(team, query)
                             else:
