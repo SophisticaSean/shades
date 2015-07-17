@@ -299,9 +299,9 @@ def __main__():
                             team_sql = "SELECT * FROM 2n_Teams WHERE Team = %s"
                             team_query = cur.execute(team_sql, (team))
                             if nick_query > 0 or team_query > 0:
-                                row = cur.fetchone()
-                                if nick_query > 0 and team_query == 0:
-                                    print row
+                                if team_query > 0:
+                                    row = cur.fetchone()
+                                if nick_query > 0:
                                     team_query = cur.execute(team_sql, (row["Team"]))
                                     row = cur.fetchone()
 
