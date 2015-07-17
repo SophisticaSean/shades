@@ -20,11 +20,11 @@ def main():
     cur.execute(sql, (team))
     row = cur.fetchone()
     query = row["Query"]
-    rs.msg_sean(str(query) + "" + row, token)
+    rs.msg_sean(str(query) + "" + str(row), token)
     jiracred = (os.getenv('juser') + ':' + os.getenv('jpass')).encode('base64', 'strict')
     headers = {'Authorization': 'Basic ' + jiracred}
 
-    if query == "None":
+    if query == None:
         base = "https://{}.atlassian.net/rest/api/2/search?jql=".format(os.getenv('jiradomain'))
         jql = (base + '(status%20%20%3D%20Open%20OR%20status%20%3D%20"In%20Progress"%20OR%20status%20%3'
                'D%20"QA"%20OR%20status%20%3D%20Feedback%20or%20status%20%3D%20"QA%20Ready")'
