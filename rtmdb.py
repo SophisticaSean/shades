@@ -334,22 +334,25 @@ def __main__():
                             team_sql = "SELECT * FROM 2n_Teams WHERE Team = %s"
                             team_query = cur.execute(team_sql, (team))
                             if (nick_query > 0 or team_query > 0):
-                                # check query validity
-                                jiracred = (os.getenv('juser') + ':' + os.getenv('jpass')).encode('base64', 'strict')
-                                headers = {'Authorization': 'Basic ' + jiracred}
-                                query_test = requests.get(new_query, headers=headers)
-                                if (query_test.status_code == requests.codes.ok) and (re.search(r'https:\/\/\w*\.atlassian.net\S*jql=', new_query) != None):
-                                    if team_query > 0:
-                                        row = cur.fetchone()
-                                    if nick_query > 0:
-                                        team_query = cur.execute(team_sql, (nick_row["Team"]))
-                                        row = cur.fetchone()
-                                        team = row["Team"]
-                                    old_query = row["Query"]
-                                    sql = "UPDATE 2n_Teams SET Query = %s WHERE Team = %s"
-                                    cur.execute(sql, (new_query, team))
-                                    message = "New Query `{}` applied to {}".format(query, team)
-                                    rs.msg_sean(message + " by {}. \r\n The old query was: `{}`".format(event.name, old_query), token)
+                                if re.search(r'https:\/\/\w*\.atlassian.net\S*jql=', new_query) != None:
+                                    # check query validity
+                                    jiracred = (os.getenv('juser') + ':' + os.getenv('jpass')).encode('base64', 'strict')
+                                    headers = {'Authorization': 'Basic ' + jiracred}
+                                    query_test = requests.get(new_query, headers=headers)
+                                    if query_test.status_code == requests.codes.ok:
+                                        if team_query > 0:
+                                            row = cur.fetchone()
+                                        if nick_query > 0:
+                                            team_query = cur.execute(team_sql, (nick_row["Team"]))
+                                            row = cur.fetchone()
+                                            team = row["Team"]
+                                        old_query = row["Query"]
+                                        sql = "UPDATE 2n_Teams SET Query = %s WHERE Team = %s"
+                                        cur.execute(sql, (new_query, team))
+                                        message = "New Query `{}` applied to {}".format(query, team)
+                                        rs.msg_sean(message + " by {}. \r\n The old query was: `{}`".format(event.name, old_query), token)
+                                    else:
+                                        message = "{} is not a valid query, you can only add a valid query to a team.".format(new_query)
                                 else:
                                     message = "{} is not a valid query, you can only add a valid query to a team.".format(new_query)
                             else:
