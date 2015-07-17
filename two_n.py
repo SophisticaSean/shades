@@ -62,14 +62,14 @@ def main():
         else:
             message = "{} has {}/{} tickets that count towards 2n."
             message = message.format(team, int(ticket_count), str(n_number))
-        post(channel, message + db_msg, 'shades McGee', icon_emoji=':shadesmcgee:')
+        rs.post(channel, message + db_msg, 'shades McGee', token, icon_emoji=':shadesmcgee:')
     except KeyError:
         message = ("Looks like JIRA doesn't have {} as a sprint team,"
                    "please add your team to the sprint team field.")
         message = message.format(team)
-        post(channel, message, 'shades McGee', icon_emoji=':shadesmcgee:')
+        rs.post(channel, message, 'shades McGee', token, icon_emoji=':shadesmcgee:')
     except Exception, e:
         message = "Oops, something went wrong. If this persists, please contact @slewis. \n" + e
-        post(channel, message, 'shades McGee', icon_emoji=':shadesmcgee:')
+        rs.post(channel, message, 'shades McGee', token, icon_emoji=':shadesmcgee:')
 
 main()
