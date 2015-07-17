@@ -333,12 +333,12 @@ def __main__():
                             nick_row = cur.fetchone()
                             team_sql = "SELECT * FROM 2n_Teams WHERE Team = %s"
                             team_query = cur.execute(team_sql, (team))
-                            if (nick_query > 0 or team_query > 0):
+                            if (nick_query > 0 or team_query > 0) and (re.search(r'https:\/\/\w*\.atlassian.net\S*jql=', new_query) != None):
                                 # check query validity
                                 jiracred = (os.getenv('juser') + ':' + os.getenv('jpass')).encode('base64', 'strict')
                                 headers = {'Authorization': 'Basic ' + jiracred}
                                 query_test = requests.get(new_query, headers=headers)
-                                if (query_test.status_code == requests.codes.ok) and (os.getenv("jiradomain") in query):
+                                if query_test.status_code == requests.codes.ok:
                                     if team_query > 0:
                                         row = cur.fetchone()
                                     if nick_query > 0:
