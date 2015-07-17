@@ -345,11 +345,11 @@ def __main__():
                                         team_query = cur.execute(team_sql, (nick_row["Team"]))
                                         row = cur.fetchone()
                                         team = row["Team"]
-
+                                    old_query = row["Query"]
                                     sql = "UPDATE 2n_Teams SET Query = %s WHERE Team = %s"
                                     cur.execute(sql, (new_query, team))
-                                    message = "New Query applied to {}".format(team)
-                                    rs.msg_sean(message + " by {}".format(event.name), token)
+                                    message = "New Query `{}` applied to {}".format(query, team)
+                                    rs.msg_sean(message + " by {}. \r\n The old query was: `{}`".format(event.name, old_query), token)
                                 else:
                                     message = "{} is not a valid query, you can only add a valid query to a team.".format(new_query)
                             else:
