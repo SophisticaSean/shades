@@ -300,7 +300,8 @@ def __main__():
                             team_query = cur.execute(team_sql, (team))
                             if nick_query > 0 or team_query > 0:
                                 row = cur.fetchone()
-                                if nick_query > 0:
+                                if nick_query > 0 and team_query == 0:
+                                    print row
                                     team_query = cur.execute(team_sql, (row["Team"]))
                                     row = cur.fetchone()
 
