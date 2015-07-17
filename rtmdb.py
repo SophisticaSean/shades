@@ -296,13 +296,14 @@ def __main__():
                             team = msg_items[2]
                             sql = "SELECT * FROM 2n_Nicks WHERE Nick = %s"
                             nick_query = cur.execute(sql, (team))
+                            nick_row = cur.fetchone()
                             team_sql = "SELECT * FROM 2n_Teams WHERE Team = %s"
                             team_query = cur.execute(team_sql, (team))
                             if nick_query > 0 or team_query > 0:
                                 if team_query > 0:
                                     row = cur.fetchone()
                                 if nick_query > 0:
-                                    team_query = cur.execute(team_sql, (row["Team"]))
+                                    team_query = cur.execute(team_sql, (nick_row["Team"]))
                                     row = cur.fetchone()
 
                                 query = row["Query"]
