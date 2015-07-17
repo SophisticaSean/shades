@@ -1,4 +1,4 @@
-import MySQLdb as mdb, MySQLdb.cursors, os, time, json, random, subprocess, re, sys, datetime
+import MySQLdb as mdb, MySQLdb.cursors, os, time, json, random, subprocess, re, sys, datetime, requests
 from colorama import Fore as F, Back as B, Style as S, init
 import resources as rs
 from imp import reload
@@ -327,23 +327,31 @@ def __main__():
                             msg_items = re.search(r'^!2n change_query \S* \S*$', event.text).group().split(' ')
                             team = msg_items[2]
                             new_query = re.sub(r"\S*\|", "", msg_items[3].replace(">", "").replace("<", ""))
+
                             sql = "SELECT * FROM 2n_Nicks WHERE Team = %s"
                             nick_query = cur.execute(sql, (team))
                             nick_row = cur.fetchone()
                             team_sql = "SELECT * FROM 2n_Teams WHERE Team = %s"
                             team_query = cur.execute(team_sql, (team))
-                            if nick_query > 0 or team_query > 0:
-                                if team_query > 0:
-                                    row = cur.fetchone()
-                                if nick_query > 0:
-                                    team_query = cur.execute(team_sql, (nick_row["Team"]))
-                                    row = cur.fetchone()
-                                    team = row["Team"]
+                            if (nick_query > 0 or team_query > 0):
+                                # check query validity
+                                jiracred = (os.getenv('juser') + ':' + os.getenv('jpass')).encode('base64', 'strict')
+                                headers = {'Authorization': 'Basic ' + jiracred}
+                                query_test = requests.get(new_query, headers=headers)
+                                if query_test.status_code == requests.codes.ok:
+                                    if team_query > 0:
+                                        row = cur.fetchone()
+                                    if nick_query > 0:
+                                        team_query = cur.execute(team_sql, (nick_row["Team"]))
+                                        row = cur.fetchone()
+                                        team = row["Team"]
 
-                                sql = "UPDATE 2n_Teams SET Query = %s WHERE Team = %s"
-                                cur.execute(sql, (new_query, team))
-                                message = "New Query applied to {}".format(team)
-                                rs.msg_sean(message + "by {}".format(event.name), token)
+                                    sql = "UPDATE 2n_Teams SET Query = %s WHERE Team = %s"
+                                    cur.execute(sql, (new_query, team))
+                                    message = "New Query applied to {}".format(team)
+                                    rs.msg_sean(message + "by {}".format(event.name), token)
+                                else:
+                                    message = "{} is not a valid query, you can only add a valid query to a team.".format(new_query)
                             else:
                                 message = "{} doesn't seem to be a team I recognize.".format(team)
                             rs.post(event.channel_id, message, '2n bot', token, icon_emoji=':robot:')
