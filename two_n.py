@@ -18,7 +18,9 @@ def main():
 
     sql = "SELECT * FROM 2n_Teams WHERE Team = %s"
     cur.execute(sql, (team))
-    query = cur.fetchone()["Query"]
+    row = cur.fetchone()
+    query = row["Query"]
+    rs.msg_sean(str(query) + "" + row, token)
     jiracred = (os.getenv('juser') + ':' + os.getenv('jpass')).encode('base64', 'strict')
     headers = {'Authorization': 'Basic ' + jiracred}
 
