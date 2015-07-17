@@ -64,7 +64,7 @@ def main():
             message = message.format(team, int(ticket_count), str(n_number))
         rs.post(channel, message + db_msg, 'shades McGee', token, icon_emoji=':shadesmcgee:')
     except KeyError:
-        message = ("Looks like JIRA doesn't have {} as a sprint team,"
+        message = ("Looks like JIRA doesn't have {} as a sprint team, "
                    "please add your team to the sprint team field.")
         message = message.format(team)
         rs.post(channel, message, 'shades McGee', token, icon_emoji=':shadesmcgee:')
