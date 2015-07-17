@@ -314,7 +314,7 @@ def __main__():
                             rs.post(event.channel_id, message, '2n bot', token, icon_emoji=':robot:')
                         if re.search(r'^!2n change_query \S* \S*$', event.text):
                             print event.text
-                            msg_items = re.search(r'^!2n query \S* \S*$', event.text).group().split(' ')
+                            msg_items = re.search(r'^!2n change_query \S* \S*$', event.text).group().split(' ')
                             print msg_items
                             team = msg_items[2]
                             new_query = msg_items[3]
