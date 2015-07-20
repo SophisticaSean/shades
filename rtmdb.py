@@ -223,6 +223,19 @@ def __main__():
                             team = event.text.replace('!2n status ', '')
                             rs.two_n(team, event.channel_id, token, cur)
 
+                        if re.search(r'^!2n help$', event.text) != None:
+                            help_msg = """`!2n` - lets you check the 2n status of any team
+                            `!2n status assessments` this will return x/y where x is current open JIRAs and y is the team's 2n number
+                            `!2n change newteam 3` this will change newteam's n number to 3, or add newteam to the bot with an n number of 3.
+                            `!2n add newteam 3` same as above
+                            `!2n delete newteam` will delete the team 'newteam' from the bot. admin only
+                            `!2n add_nick nickname team` will add a nickname for a team, then `!2n status nickname` will fetch data for team
+                                (can use one nick name for multiple teams, ex. mobile will call both ios and android)
+                            `!2n delete_nick nickname` will remove all nicknames matching nickname from the database.
+                            `!2n query team` will show you the current JIRA query that team is following.
+                            `!2n change_query team new_query` will set new_query to be used when team is called by !2n status"""
+                            rs.post(event.channgel_id, help_msg, '2n bot', token, icon_emoji=':robot:')
+
                         if re.search(r'^!2n change \S* \d*$', event.text) or re.search(r'^!2n add \S* \d*$', event.text):
                             msg_items = re.search(r'^!2n \w* \w* \d*$', event.text).group().split(' ')
                             team = msg_items[2]
