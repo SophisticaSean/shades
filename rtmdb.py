@@ -234,7 +234,7 @@ def __main__():
                             `!2n delete_nick nickname` will remove all nicknames matching nickname from the database.
                             `!2n query team` will show you the current JIRA query that team is following.
                             `!2n change_query team new_query` will set new_query to be used when team is called by !2n status"""
-                            rs.post(event.channgel_id, help_msg, '2n bot', token, icon_emoji=':robot:')
+                            rs.post(event.channel_id, help_msg, '2n bot', token, icon_emoji=':robot:')
 
                         if re.search(r'^!2n change \S* \d*$', event.text) or re.search(r'^!2n add \S* \d*$', event.text):
                             msg_items = re.search(r'^!2n \w* \w* \d*$', event.text).group().split(' ')
