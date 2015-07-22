@@ -541,10 +541,13 @@ def __main__():
                             `!2n change_query team new_query` will set new_query to be used when team is called by !2n status
 
                         `!monikers` - lets you associate yourself to various usernames on various networks (like :xbl:, :psn:, or :steam:)
-                            `!monikers somename` will look up somename and if they exist attempt to list out the usernames and networks they belong to.
-                            `!monikers me` will look up and return your usernames and networks they belong to.
-                            `!monikers add username network` will associate you to username on network.
-                            `!monikers delete username network` will delete all usernames that match username on that network.
+                                `!monikers somename` will look up somename and if they exist attempt to list out the usernames and networks they belong to.
+                                `!monikers me` will look up and return your usernames and networks they belong to.
+                                `!monikers add/create username network` will associate you to username on network.
+                                `!monikers delete/remove username network` will delete all usernames that match username on that network.
+                                `!monikers list network` will list all monikers and who they belong to for network.
+                                `!monikers reset all/network` will remove all monikers or all monikers on network.
+
                         """
                         rs.post(event.channel_id, message, username, token, icon_emoji=':robot:')
 
