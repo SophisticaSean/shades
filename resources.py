@@ -118,6 +118,9 @@ def post(channel, message, username, token, icon_url='', icon_emoji=':shadesmcge
     """posts a message to a channel (in slack) with the supplied parameters"""
     nurl_temp = ("https://slack.com/api/chat.postMessage?token={}&channel={}"
                  "&text={}&username={}&icon_url={}&icon_emoji={}")
+    development = False
+    if development == True:
+        channel = "D040WDA0X"
     nurl = nurl_temp.format(token, channel, urllib.quote(message), username, icon_url, icon_emoji)
     return requests.get(nurl, timeout=5)
 
