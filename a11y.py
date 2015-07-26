@@ -1,4 +1,6 @@
 import requests, os, sys, time
+#import MySQLdb as mdb, MySQLdb.cursors
+#import resources as rs
 
 def main():
     """main a11y function"""
@@ -20,8 +22,6 @@ def main():
             else:
                 sprint_count = 0
             ticket_store[item['key']] = {'sprint_count': sprint_count, 'team': item['fields']['customfield_12700']['value']}
-            #print item['key'], "sprint count: " + str(sprint_count), item['fields']['customfield_12700']['value'], total
-            total = total - 1
         return ticket_store
 
     ticket_store = ticket_list()
