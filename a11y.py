@@ -7,7 +7,7 @@ def main():
     def get_key(item):
         return item[1]
 
-    def get_ticket_json():
+    def a11y_json():
         jiracred = (os.getenv('juser') + ':' + os.getenv('jpass')).encode('base64', 'strict')
         headers = {'Authorization': 'Basic ' + jiracred}
 
@@ -15,10 +15,10 @@ def main():
         jql = (base + '(labels%20%3D%20accessibility%20and%20(status%20!%3D%20Closed%20and%20status%20!%3D%20Done)%20and%20project%20!%3D%20"Accessibility%20Testing"%20and%20type%20!%3D%20Epic)&maxResults=1000')
         response = requests.get(jql, headers=headers)
         total = int(response.json()['total'])
-        return response.json()['issues']
+        return response.json()
 
-    def ticket_list():
-        json = get_ticket_json()
+    def a11y_list():
+        json = a11y_json()['issues']
         ticket_store = {}
         for item in json:
             if item['fields']['customfield_10007'] != None:
@@ -28,7 +28,7 @@ def main():
             ticket_store[item['key']] = {'sprint_count': sprint_count, 'team': item['fields']['customfield_12700']['value']}
         return ticket_store
 
-    ticket_store = ticket_list()
+    ticket_store = a11y_list()
     print len(ticket_store)
     temp_arr = []
     for key, value in ticket_store.iteritems():
