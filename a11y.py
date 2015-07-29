@@ -49,7 +49,7 @@ def main():
 
     def prioritized_tickets():
         priority_dict = {1: '11163', 2: '11105', 3: '11106'}
-        priority_jql = '%20and%20("Epic%20Link"%20%3D%20CNVS-{}'
+        priority_jql = '%20and%20("Epic%20Link"%20%3D%20CNVS-{})'
         for key, value in priority_dict.iteritems():
             current_jql = construct_jql(a11y_base_jql + priority_jql.format(value))
             current_tix_json = a11y_json(current_jql)
