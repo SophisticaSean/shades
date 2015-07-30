@@ -14,6 +14,12 @@ def main():
     def get_key(item):
         return item[1]
 
+    def get_sprint_count(issue):
+        if issue['fields']['customfield_10007'] != None:
+            return len(issue['fields']['customfield_10007'])
+        else:
+            return 0
+
     def a11y_json(jql):
         jiracred = (os.getenv('juser') + ':' + os.getenv('jpass')).encode('base64', 'strict')
         headers = {'Authorization': 'Basic ' + jiracred}
@@ -30,10 +36,7 @@ def main():
         json = a11y_json(a11y_list_jql)['issues']
         ticket_store = {}
         for item in json:
-            if item['fields']['customfield_10007'] != None:
-                sprint_count = len(item['fields']['customfield_10007'])
-            else:
-                sprint_count = 0
+            sprint_count = get_sprint_count(item)
             # should also be storing these items in the db
             ticket_store[item['key']] = {'sprint_count': sprint_count, 'team': item['fields']['customfield_12700']['value']}
         return ticket_store
@@ -53,9 +56,14 @@ def main():
         for key, value in priority_dict.iteritems():
             current_jql = construct_jql(a11y_base_jql + priority_jql.format(value))
             current_tix_json = a11y_json(current_jql)
+            for ticket in current_tix_json['issues']:
+                ticket_id = ticket['key']
+                sprint_count = get_sprint_count(ticket)
+                # store the tickets in the db
+                print str(key), ticket_id, ticket['fields']['customfield_12700']['value'], sprint_count
             #print key, value, current_jql
-            print current_jql
-            print current_tix_json
+            #print current_jql
+            #print current_tix_json
 
 
 
@@ -72,4 +80,5 @@ def main():
     #print unprioritized_tickets()
 
     prioritized_tickets()
+    print unprioritized_tickets()
 main()
