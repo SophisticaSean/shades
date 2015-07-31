@@ -30,7 +30,7 @@ with con:
         cur.execute("DROP TABLE Gif_Whitelist")
         cur.execute("CREATE TABLE Gif_Whitelist(Id INT PRIMARY KEY AUTO_INCREMENT, Channel VARCHAR(50), Slack_Id VARCHAR(10))")
         cur.execute("DROP TABLE 2n_Teams")
-        cur.execute("CREATE TABLE 2n_Teams(Id INT PRIMARY KEY AUTO_INCREMENT, Team VARCHAR(50), Query VARCHAR(1000), N_Number INT)")
+        cur.execute("CREATE TABLE 2n_Teams(Id INT PRIMARY KEY AUTO_INCREMENT, Team VARCHAR(50), Query VARCHAR(1000), a11yQuery VARCHAR(1000), N_Number INT)")
         cur.execute("DROP TABLE 2n_Nicks")
         cur.execute("CREATE TABLE 2n_Nicks(Id INT PRIMARY KEY AUTO_INCREMENT, Team VARCHAR(50), Nick VARCHAR(50))")
         cur.execute("DROP TABLE Monikers")
@@ -41,6 +41,7 @@ with con:
         cur.execute("CREATE TABLE Tasks(ID INT PRIMARY KEY AUTO_INCREMENT, Command VARCHAR(200), Weekday VARCHAR(10), Hour INT, Min INT)")
         cur.execute("DROP TABLE League")
         cur.execute("CREATE TABLE League(ID INT PRIMARY KEY AUTO_INCREMENT, Slack_Id VARCHAR(10), Name VARCHAR(30), S_ID VARCHAR(30) UNIQUE KEY, Level INT(2), Rank VARCHAR(30)")
+        cur.execute("CREATE TABLE a11y(ID INT PRIMARY KEY AUTO_INCREMENT, Jira_ID VARCHAR(15), Priority VARCHAR(20), Team VARCHAR(30), Sprint_Count INT)")
     #i = 0
     #while i < 25:
     #   cur.execute("INSERT INTO test(Name) VALUES('Sean %i')" % (i))
