@@ -333,7 +333,7 @@ def __main__():
                                                "they will be using this default query: \r\n UI: `{}` \r\n API: `{}`").format(team, ui_query, default_query)
                                 else:
                                     ui_query = query.replace("/rest/api/2/search", "/issues/")
-                                    message = ("Here's the UI query for the {} team: \r\n `{}`"
+                                    message = ("Here's the UI query for the {} team: \r\n `{}` \r\n"
                                                "Here's the API Query: \r\n `{}`").format(team, ui_query, query)
                             else:
                                 message = "{} doesn't seem to be a team I recognize.".format(team)
