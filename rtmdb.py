@@ -258,7 +258,7 @@ def __main__():
                             rs.post(event.channel_id, message, '2n bot', token, icon_emoji=':robot:')
                             rs.msg_sean(message + ' changed by ' + event.name, token)
 
-                        if re.search(r'^!2n delete \w*$', event.text) and event.user_id in super_users.values():
+                        if re.search(r'^!2n delete \S*$', event.text) and event.user_id in super_users.values():
                             team = re.search(r'^!2n delete \S*$', event.text).group().split(' ')[2]
                             sql = "SELECT * FROM 2n_Teams WHERE Team = '%s'" % team
                             query = cur.execute(sql)
