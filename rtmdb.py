@@ -328,11 +328,13 @@ def __main__():
                                                            '%20AND%20((type%20%3D%20"Support%20Week%'
                                                            '20Task"%20AND%20status%20!%3D%20"QA")%20OR%20type%20%3D%20Bug)%20AND%20("Sprint%'
                                                            '20Team"%20%3D%20%27' + team + '%27)')
-
+                                    ui_query = default_query.replace("/rest/api/2/search", "/issues/")
                                     message = ("The `{}` team does not have a custom query set, "
-                                               "they will be using this default query: `{}`").format(team, default_query)
+                                               "they will be using this default query: \r\n UI: `{}` \r\n API: `{}`").format(team, ui_query, default_query)
                                 else:
-                                    message = "Here's the query for the {} team: \r\n `{}`".format(team, query)
+                                    ui_query = query.replace("/rest/api/2/search", "/issues/")
+                                    message = ("Here's the UI query for the {} team: \r\n `{}`"
+                                               "Here's the API Query: \r\n `{}`").format(team, ui_query, query)
                             else:
                                 message = "{} doesn't seem to be a team I recognize.".format(team)
                             rs.post(event.channel_id, message, '2n bot', token, icon_emoji=':robot:')
