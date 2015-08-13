@@ -118,10 +118,7 @@ def post(channel, message, username, token, icon_url='', icon_emoji=':shadesmcge
     """posts a message to a channel (in slack) with the supplied parameters"""
     nurl_temp = ("https://slack.com/api/chat.postMessage?token={}&channel={}"
                  "&text={}&username={}&icon_url={}&icon_emoji={}")
-    development = False
-    if development == True:
-        channel = "D040WDA0X"
-    nurl = nurl_temp.format(token, channel, urllib.quote(message), username, icon_url, icon_emoji)
+    nurl = nurl_temp.format(token, "D040WDA0X", urllib.quote(message), username, icon_url, icon_emoji)
     return requests.get(nurl, timeout=5)
 
 def schedule_task(code_string, weekday, hour, minute, cur):
@@ -135,7 +132,7 @@ def slack_connect():
     return mdb.connect('localhost', os.getenv('dbuser2'), os.getenv('dbpass2'), 'rtm', cursorclass=mdb.cursors.DictCursor)
 
 def get_shades_path():
-    return os.getenv('shades_dir')
+    return os.getenv('dshades_dir')
 
 def two_n(team, channel, token, cur, stat = "False"):
     human_arr = ['yo', 'eh', 'lol', 'nerd', 'boo', 'friend', 'comrade', 'chum', 'crony', 'confidant', 'ally', 'associate', 'confrere', 'compatriot']
