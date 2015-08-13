@@ -219,7 +219,7 @@ def __main__():
 
                 # block where we deal with 2n stuff
                     if re.search(r'^!2n ', event.text) != None:
-                        if re.search(r'^!2n status \w*$', event.text) != None:
+                        if re.search(r'^!2n status \S*$', event.text) != None:
                             team = event.text.replace('!2n status ', '')
                             rs.two_n(team, event.channel_id, token, cur)
 
@@ -259,7 +259,7 @@ def __main__():
                             rs.msg_sean(message + ' changed by ' + event.name, token)
 
                         if re.search(r'^!2n delete \w*$', event.text) and event.user_id in super_users.values():
-                            team = re.search(r'^!2n delete \w*$', event.text).group().split(' ')[2]
+                            team = re.search(r'^!2n delete \S*$', event.text).group().split(' ')[2]
                             sql = "SELECT * FROM 2n_Teams WHERE Team = '%s'" % team
                             query = cur.execute(sql)
                             if query > 0:
