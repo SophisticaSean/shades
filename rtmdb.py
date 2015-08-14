@@ -237,7 +237,7 @@ def __main__():
                             rs.post(event.channel_id, help_msg, '2n bot', token, icon_emoji=':robot:')
 
                         if re.search(r'^!2n change \S* \d*$', event.text) or re.search(r'^!2n add \S* \d*$', event.text):
-                            msg_items = re.search(r'^!2n \w* \w* \d*$', event.text).group().split(' ')
+                            msg_items = re.search(r'^!2n \w* \S* \d*$', event.text).group().split(' ')
                             team = msg_items[2]
                             n_number = int(msg_items[3])
                             sql = "SELECT * FROM 2n_Teams WHERE Team = %s"
