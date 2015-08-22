@@ -34,29 +34,42 @@ def main():
                 sprint_count = len(item['fields']['customfield_10007'])
             else:
                 sprint_count = 0
+            # should also be storing these items in the db
             ticket_store[item['key']] = {'sprint_count': sprint_count, 'team': item['fields']['customfield_12700']['value']}
         return ticket_store
 
     def unprioritized_tickets():
-        priority_dict = {1: '11163', 2: '11105', 3: '11106', 'all': '%20and%20("Epic%20Link"%20%3D%20CNVS-11163%20or%20"epic%20link"%20%3D%20CNVS-11105%20or%20"epic%20link"%20%3D%20CNVS-11106)'}
-        jql = construct_jql(a11y_base_jql + priority_dict['all'])
+        unp_jql = '%20and%20("Epic%20Link"%20%3D%20CNVS-11163%20or%20"epic%20link"%20%3D%20CNVS-11105%20or%20"epic%20link"%20%3D%20CNVS-11106)'
+        jql = construct_jql(a11y_base_jql + unp_jql)
         prioritized_tix = a11y_json(jql)['issues']
         pt_ids = []
         for item in prioritized_tix:
             pt_ids.append(item['key'])
         return list(set(a11y_list().keys()) - set(pt_ids))
 
-        #need to loop thru this and compare the returned issues to the total issues and list out the unprioritized ones
+    def prioritized_tickets():
+        priority_dict = {1: '11163', 2: '11105', 3: '11106'}
+        priority_jql = '%20and%20("Epic%20Link"%20%3D%20CNVS-{}'
+        for key, value in priority_dict.iteritems():
+            current_jql = construct_jql(a11y_base_jql + priority_jql.format(value))
+            current_tix_json = a11y_json(current_jql)
+            #print key, value, current_jql
+            print current_jql
+            print current_tix_json
 
-    ticket_store = a11y_list()
-    print len(ticket_store)
-    temp_arr = []
-    for key, value in ticket_store.iteritems():
-        if value["sprint_count"] > 1:
-            temp_arr.append([key, value["sprint_count"]])
-    temp_arr = sorted(temp_arr, key=get_key, reverse=True)
-    print "The tickets people _want_ to pretend to care about: \r\n"
-    for i in temp_arr:
-        print "{}, sprint count: {}".format(i[0], i[1])
-    print unprioritized_tickets()
+
+
+    #ticket_store = a11y_list()
+    #print len(ticket_store)
+    #temp_arr = []
+    #for key, value in ticket_store.iteritems():
+        #if value["sprint_count"] > 1:
+            #temp_arr.append([key, value["sprint_count"]])
+    #temp_arr = sorted(temp_arr, key=get_key, reverse=True)
+    #print "The tickets people _want_ to pretend to care about: \r\n"
+    #for i in temp_arr:
+        #print "{}, sprint count: {}".format(i[0], i[1])
+    #print unprioritized_tickets()
+
+    prioritized_tickets()
 main()
