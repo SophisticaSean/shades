@@ -233,7 +233,7 @@ def __main__():
                                 (can use one nick name for multiple teams, ex. mobile will call both ios and android)
                             `!2n delete_nick nickname` will remove all nicknames matching nickname from the database.
                             `!2n query team` will show you the current JIRA query that team is following.
-                            `!2n change_query team new_query` will set new_query to be used when team is called by !2n status"""
+                            `!2n change_query team new_query` will set new_query to be used when team is called by !2n status, new_query must be a valid JIRA api/ui search URL"""
                             rs.post(event.channel_id, help_msg, '2n bot', token, icon_emoji=':robot:')
 
                         if re.search(r'^!2n change \S* \d*$', event.text) or re.search(r'^!2n add \S* \d*$', event.text):
@@ -339,6 +339,7 @@ def __main__():
                                 message = "{} doesn't seem to be a team I recognize.".format(team)
                             rs.post(event.channel_id, message, '2n bot', token, icon_emoji=':robot:')
                         if re.search(r'^!2n change_query \S* \S*$', event.text):
+                            base = "https://{}.atlassian.net/rest/api/2/search?jql=".format(os.getenv('jiradomain'))
                             msg_items = re.search(r'^!2n change_query \S* \S*$', event.text).group().split(' ')
                             team = msg_items[2]
                             new_query = re.sub(r"\S*\|", "", msg_items[3].replace(">", "").replace("<", ""))
@@ -350,6 +351,8 @@ def __main__():
                             team_query = cur.execute(team_sql, (team))
                             if (nick_query > 0 or team_query > 0):
                                 if re.search(r'https:\/\/\w*\.atlassian.net\S*jql=', new_query) != None:
+                                    # rip JQL from query, build api query
+                                    new_query = re.sub(r'https:\/\/\w*\.atlassian.net\S*jql=', base, new_query)
                                     # check query validity
                                     jiracred = (os.getenv('juser') + ':' + os.getenv('jpass')).encode('base64', 'strict')
                                     headers = {'Authorization': 'Basic ' + jiracred}
@@ -540,7 +543,7 @@ def __main__():
                                 (can use one nick name for multiple teams, ex. mobile will call both ios and android)
                             `!2n delete_nick nickname` will remove all nicknames matching nickname from the database.
                             `!2n query team` will show you the current JIRA query that team is following.
-                            `!2n change_query team new_query` will set new_query to be used when team is called by !2n status
+                            `!2n change_query team new_query` will set new_query to be used when team is called by !2n status, new_query must be a valid JIRA api/ui search URL
 
                         `!monikers` - lets you associate yourself to various usernames on various networks (like :xbl:, :psn:, or :steam:)
                                 `!monikers somename` will look up somename and if they exist attempt to list out the usernames and networks they belong to.

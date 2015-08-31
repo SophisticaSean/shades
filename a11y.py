@@ -28,7 +28,7 @@ def main():
             response = requests.get(jql, headers=headers, timeout=60)
         except requests.Timeout:
             print "oops timeout"
-        total = int(response.json()['total'])
+        total = int(response.json()['total']) # should take this out and replace it with error handling
         return response.json()
 
     def a11y_list():

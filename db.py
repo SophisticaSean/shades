@@ -41,6 +41,7 @@ with con:
         cur.execute("CREATE TABLE Tasks(ID INT PRIMARY KEY AUTO_INCREMENT, Command VARCHAR(200), Weekday VARCHAR(10), Hour INT, Min INT)")
         cur.execute("DROP TABLE League")
         cur.execute("CREATE TABLE League(ID INT PRIMARY KEY AUTO_INCREMENT, Slack_Id VARCHAR(10), Name VARCHAR(30), S_ID VARCHAR(30) UNIQUE KEY, Level INT(2), Rank VARCHAR(30)")
+        cur.execute("DROP TABLE a11y")
         cur.execute("CREATE TABLE a11y(ID INT PRIMARY KEY AUTO_INCREMENT, Jira_ID VARCHAR(15), Priority VARCHAR(20), Team VARCHAR(30), Sprint_Count INT)")
     #i = 0
     #while i < 25:
