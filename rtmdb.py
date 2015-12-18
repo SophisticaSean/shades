@@ -323,11 +323,10 @@ def __main__():
                                 query = row["Query"]
                                 if query == None:
                                     base = "https://{}.atlassian.net/rest/api/2/search?jql=".format(os.getenv('jiradomain'))
-                                    default_query = base + ('(status%20%20%3D%20Open%20OR%20status%20%3D%20"In%20Progress"%20OR%20status%20%3'
-                                                           'D%20"QA"%20OR%20status%20%3D%20Feedback%20or%20status%20%3D%20"QA%20Ready")'
-                                                           '%20AND%20((type%20%3D%20"Support%20Week%'
-                                                           '20Task"%20AND%20status%20!%3D%20"QA")%20OR%20type%20%3D%20Bug)%20AND%20("Sprint%'
-                                                           '20Team"%20%3D%20%27' + team + '%27)')
+                                    default_query = (base + '(status%20%20%3D%20Open%20OR%20status%20%3D%20"In%20Progress"'
+                                           '%20OR%20status%20%3D%20"QA"%20OR%20status%20%3D%20Feedback%20or'
+                                           '%20status%20%3D%20"QA%20Ready")%20AND%20type%20%3D%20Bug%20AND'
+                                           '%20("Sprint%20Team"%20%3D%20%27' + team + '%27)')
                                     ui_query = default_query.replace("/rest/api/2/search", "/issues/")
                                     message = ("The `{}` team does not have a custom query set, "
                                                "they will be using this default query: \r\n UI: `{}` \r\n API: `{}`").format(team, ui_query, default_query)
